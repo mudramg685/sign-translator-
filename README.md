@@ -28,4 +28,4 @@ See [docs/architecture.md](docs/architecture.md) for the module diagram, API out
 
 ## Current status
 
-Phase 2 establishes the project skeleton and configuration. Runtime implementation will follow the approved phase sequence. No webcam predictions are available until the collection, training, and inference phases are complete.
+Phase 3 adds webcam landmark collection and CSV inspection. The classifier, prediction service, and desktop application are not implemented yet, so no gesture predictions are available.

@@ -47,3 +47,7 @@ Translation history will store an identifier, recognized text, optional aggregat
 11. Setup, API, diagrams, limitations, and future work documentation.
 
 The first release will support only a small vocabulary with collected or licensed examples. It will not be described as complete ISL translation. Recognition quality will be reported from held-out evaluation data.
+
+## Dataset collection format
+
+The Phase 3 collector uses MediaPipe Hands to locate 21 landmarks per hand. It mirrors the webcam image before inference, as MediaPipe's handedness output assumes mirrored input. Features are assigned to left/right slots, translated to each wrist, and divided by the farthest landmark distance. A session UUID is stored so later evaluation can split by collection session and reduce leakage from adjacent frames. See the [MediaPipe Hands documentation](https://github.com/google-ai-edge/mediapipe/blob/master/docs/solutions/hands.md) for the landmark and handedness conventions.
