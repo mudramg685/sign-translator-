@@ -28,4 +28,4 @@ See [docs/architecture.md](docs/architecture.md) for the module diagram, API out
 
 ## Current status
 
-Phase 3 adds webcam landmark collection and CSV inspection. The classifier, prediction service, and desktop application are not implemented yet, so no gesture predictions are available.
+Phase 4 adds a PyTorch training and evaluation pipeline. Collect labeled webcam samples as described in [the Python service README](python-ml-service/README.md) before training. The prediction API and desktop application are not implemented yet, so no live gesture predictions are available.

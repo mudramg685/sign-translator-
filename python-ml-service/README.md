@@ -41,4 +41,16 @@ Inspect class balance with:
 python scripts/inspect_dataset.py
 ```
 
-The data is not ready for model training merely because it has rows. Phase 4 will add stratified train/validation/test splitting and evaluation. Capture examples from multiple sessions and, where possible, multiple consenting signers to reduce memorization.
+## Train and evaluate the initial model
+
+Collect each gesture in at least five separate runs of `collect_dataset.py`, with multiple saved examples per run. The training script uses five-fold stratified group splitting: all rows from a capture session stay together, with three folds for training and one fold each for validation and testing.
+
+```powershell
+python scripts/train_model.py
+```
+
+Options include `--epochs`, `--batch-size`, `--patience`, `--seed`, `--dataset`, `--output-dir`, and `--device cpu|cuda|auto`. CPU is the default fallback. The script trains a small PyTorch feed-forward classifier with early stopping on validation loss and class-weighted loss for imbalanced labels.
+
+It writes `models/gesture_classifier.pt`, `models/evaluation.json`, and `models/confusion_matrix.csv`. The evaluation includes held-out accuracy, macro precision, macro recall, macro and weighted F1, per-class scores, and the confusion matrix. These local model artifacts are excluded from Git. If a session-based split cannot place every label in all three partitions, collect more independent sessions per label.
+
+The test score measures held-out capture sessions from this dataset. The collector does not record signer identity, so the score does not establish generalization to unseen signers. Results also depend on the selected vocabulary, camera conditions, and data collection quality; they do not measure full ISL translation.

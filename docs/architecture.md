@@ -48,6 +48,8 @@ Translation history will store an identifier, recognized text, optional aggregat
 
 The first release will support only a small vocabulary with collected or licensed examples. It will not be described as complete ISL translation. Recognition quality will be reported from held-out evaluation data.
 
+The initial classifier is a small feed-forward PyTorch network over the normalized 128-value static feature vector. Training reserves separate capture sessions for training, validation, and test, uses validation loss for early stopping, and reports accuracy, precision, recall, F1, per-class results, and a confusion matrix. The test score is session-held-out; because signer identity is not recorded, it does not establish performance on unseen signers.
+
 ## Dataset collection format
 
 The Phase 3 collector uses MediaPipe Hands to locate 21 landmarks per hand. It mirrors the webcam image before inference, as MediaPipe's handedness output assumes mirrored input. Features are assigned to left/right slots, translated to each wrist, and divided by the farthest landmark distance. A session UUID is stored so later evaluation can split by collection session and reduce leakage from adjacent frames. See the [MediaPipe Hands documentation](https://github.com/google-ai-edge/mediapipe/blob/master/docs/solutions/hands.md) for the landmark and handedness conventions.
