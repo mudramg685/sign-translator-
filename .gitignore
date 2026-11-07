@@ -20,6 +20,8 @@ venv/
 # Collected data and trained weights can contain large or sensitive files
 python-ml-service/dataset/raw/*
 !python-ml-service/dataset/raw/.gitkeep
+python-ml-service/dataset/processed/*
+!python-ml-service/dataset/processed/.gitkeep
 python-ml-service/models/*
 !python-ml-service/models/.gitkeep
 

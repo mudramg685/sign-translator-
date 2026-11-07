@@ -45,8 +45,26 @@ python scripts/inspect_dataset.py
 
 Collect each gesture in at least five separate runs of `collect_dataset.py`, with multiple saved examples per run. The training script uses five-fold stratified group splitting: all rows from a capture session stay together, with three folds for training and one fold each for validation and testing.
 
+Alternatively, the [Indian sign Language-Real-life Words dataset](https://data.mendeley.com/datasets/s6kgb6r3ss/2) provides 18,000 static images across 20 word labels under CC BY 4.0. Download and extract it from Mendeley Data, then import images whose names follow `word_imageIndex_userN_sampleN.jpg`:
+
+```powershell
+python scripts/import_mendeley_images.py --input path/to/extracted/dataset
+```
+
+The importer extracts the same normalized hand landmarks and groups all samples by signer so a signer cannot appear in both training and held-out partitions. It writes `dataset/processed/mendeley_landmarks.csv`. Use `--overwrite` to replace a prior generated CSV. The source description reports eight participants but specifies participant IDs 1–6 in the filename convention; check the extracted files and the importer's signer counts before training. The grouped training script requires at least five signers/sessions per label.
+
+Dataset attribution: Tyagi, A. and Bansal, S. *Indian sign Language-Real-life Words*, Mendeley Data, version 2, 2022, DOI [10.17632/s6kgb6r3ss.2](https://doi.org/10.17632/s6kgb6r3ss.2), CC BY 4.0. Include this citation and the [Creative Commons Attribution 4.0 terms](https://creativecommons.org/licenses/by/4.0/) when redistributing derived work. Do not commit the source images or extracted landmarks to this repository.
+
+For webcam-collected rows in `dataset/raw/landmarks.csv`, run:
+
 ```powershell
 python scripts/train_model.py
+```
+
+For the imported Mendeley rows, set the dataset path explicitly:
+
+```powershell
+python scripts/train_model.py --dataset dataset/processed/mendeley_landmarks.csv
 ```
 
 Options include `--epochs`, `--batch-size`, `--patience`, `--seed`, `--dataset`, `--output-dir`, and `--device cpu|cuda|auto`. CPU is the default fallback. The script trains a small PyTorch feed-forward classifier with early stopping on validation loss and class-weighted loss for imbalanced labels.
